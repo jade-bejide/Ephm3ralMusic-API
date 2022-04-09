@@ -7,6 +7,7 @@ app = FastAPI()
 
 #setting up objects
 class Genre(BaseModel):
+    id: int
     name: str
     avg_listeners: Optional[float] = None
     avg_score: Optional[float] = None
@@ -19,6 +20,7 @@ class Song(BaseModel):
     listens: int
 
 class Album(BaseModel):
+    id: int
     name: str
     release_date: date
     genres: List[Genre]
@@ -40,11 +42,18 @@ class Artist(BaseModel):
 class System(BaseModel):
     artists: List[Artist]
     songs: List[Song]
-    artistIdTracker: int
-    songIdTracker: int
+    artistIDTracker: int
+    songIDTracker: int
+    genreIDTracker: int
+    albumIdTracker: int
 
 
-system = System(artists=[], songs=[], artistIdTracker=0, songIdTracker=0)
+system = System(artists=[], 
+                songs=[], 
+                artistIDTracker=0, 
+                songIDTracker=0,
+                genreIDTracker=0,
+                albumIDTracker=0)
 
 #helper functions
 def getArtistOnId(id):
@@ -80,8 +89,8 @@ def get_artist(artist_id: int):
 
 @app.post("/artists/{artist_id}")
 def add_artist(name: str):
-    system.artistIdTracker += 1
-    artist = Artist(id=system.artistIdTracker, 
+    system.artistIDTracker += 1
+    artist = Artist(id=system.artistIDTracker, 
                     name=name, 
                     albums=[], 
                     songs=[], 
@@ -100,14 +109,15 @@ def delete_artist(artist_id: int, artist: Artist):
 
 @app.post("/artists/{artist_id}/{song_id}")
 def add_song_to_artist(artist_id: int, name: str, genres: List[Genre], duration: int, listens: int):
-    song = Song(id=system.songIdTracker,
+    system.songIDTracker += 1
+    song = Song(id=system.songIDTracker,
                 name=name,
                 genres=genres,
                 duration=duration,
                 listens=listens
             )
 
-    system.songIdTracker += 1
+    
     system.songs.append(song)
 
     #get artist to add song to based on id
