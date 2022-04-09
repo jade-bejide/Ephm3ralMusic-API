@@ -30,6 +30,7 @@ def add_artist(session: Session, artist: Artist) -> Artists:
     session.refresh(new_artist)
     return new_artist
 
+#may want to separate this into separate updations per field
 def update_artist_info(session: Session, _id: int, info_update: Artist) -> Artists:
     artist_details = get_artist_by_id(session, _id)
 
@@ -41,3 +42,19 @@ def update_artist_info(session: Session, _id: int, info_update: Artist) -> Artis
     artist_details.songs = info_update.songs
     artist_details.total_playtime = info_update.total_playtime
     artist_details.user_score = info_update.user_score 
+
+    session.commit()
+    session.refresh(artist_details)
+
+    return artist_details
+
+def delete_artist(session: Session, _id:int, artist_delete: Artist) -> Artists:
+    artist_details = get_artist_by(session, _id)
+
+    if artist_details is None:
+        raise ArtistNotFoundError
+
+    session.delete(artist_details)
+    session.commit()
+
+    return
