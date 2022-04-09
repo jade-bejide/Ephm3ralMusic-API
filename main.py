@@ -46,16 +46,6 @@ class System(BaseModel):
 
 system = System(artists=[], songs=[], artistIdTracker=0, songIdTracker=0)
 
-dangelo = Artist(
-    id=system.artistIdTracker,
-    name="D'Angelo",
-    albums= [],
-    songs= [],
-    total_playtime= 0,
-    user_score= None
-)
-system.artists.append(dangelo)
-
 #helper functions
 def getArtistOnId(id):
     relArtist = None
