@@ -34,13 +34,7 @@ def add_artist_info(session: Session, artist: Artist) -> Artists:
     if artist_details is not None:
         raise ArtistAlreadyInSystemError
 
-
-    print(artist.dict())
-    sql_keys = ['id', 'name', 'total_playtime', 'user_score']
-    artistDict = {x:artist.dict()[x] for x in sql_keys}
-    print(artistDict)
-
-    new_artist = Artists(**artistDict)
+    new_artist = Artists(**artist.dict())
     session.add(new_artist)
     session.commit()
     #session.refresh(new_artist)

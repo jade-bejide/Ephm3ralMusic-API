@@ -16,7 +16,7 @@ class System:
 
     #API to get the list of artists info
 
-    @router.get("/artists", response_model=PaginatedArtistsInfo)
+    @router.get("/artists")
     def list_artists(self, limit: int = 10, offset: int = 0):
         artist_list = get_all_artists(self.session, limit, offset)
         response = {"limit": limit, "offset": offset, "data": artist_list}

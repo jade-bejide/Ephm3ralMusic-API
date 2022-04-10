@@ -14,7 +14,7 @@ from sqlalchemy.types import String, Integer, Enum, Float, DateTime
 from database.database import Base, meta, db_engine
 import enum
 
-#need to add not null as appropriate
+#need to add not null as appropriate 
 class Artists(Base):
     __tablename__ = "artists"
 

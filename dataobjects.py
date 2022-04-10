@@ -34,8 +34,8 @@ class Album(BaseModel):
 class Artist(BaseModel):
     id: int
     name: str
-    albums: List[Album]
-    songs: List[Song]
+    # albums: List[Album]
+    # songs: List[Song]
     total_playtime: int
     user_score: Optional[float] = None
 
