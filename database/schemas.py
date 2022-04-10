@@ -10,16 +10,17 @@ currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfram
 parentdir = os.path.dirname(currentdir)
 sys.path.insert(0, parentdir) 
 
-from main import Artist, Album, Song, Genre
+from dataobjects import Artist, Album, Song, Genre
 
-class Artists(Artist):
+#data validation and conversion
+class ArtistInfo(Artist):
     class Config:
         orm_mode = True
 
-class PaginatedArtistsInfo(Artists):
+class PaginatedArtistsInfo(ArtistInfo):
     limit: int
     offset: int
-    data: List[Artists]
+    data: List[ArtistInfo]
 
 class Albums(Album):
     class Config:

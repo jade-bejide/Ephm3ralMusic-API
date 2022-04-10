@@ -1,13 +1,23 @@
 from typing import List
 from sqlalchemy.orm import Session
-from exceptions import ArtistAlreadyInSystemError, ArtistNotFoundError, \
+from database.exceptions import ArtistAlreadyInSystemError, ArtistNotFoundError, \
  AlbumAlreadyInSystemError, AlbumNotFoundError, \
     GenreAlreadyInSystemError, GenreNotFoundError, \
     SongAlreadyInSystemError, SongNotFoundError
-from models import Artists, Albums, Songs, Genres, SongByGenre, AlbumByGenres, AlbumBySongs
-from schemas import Artists, Albums, Songs, Genres
+from database.models import Artists, Albums, Songs, Genres, SongByGenre, AlbumByGenres, AlbumBySongs
+from database.schemas import ArtistInfo, Albums, Songs, Genres
 
-def get_all_artists(session: Session, limit: int, offset: int) -> List[Artists]:
+import os
+import sys
+import inspect
+
+currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+parentdir = os.path.dirname(currentdir)
+sys.path.insert(0, parentdir) 
+
+from dataobjects import Artist
+
+def get_all_artists(session: Session, limit: int, offset: int) -> List[Artist]:
     return session.query(Artists).offset(offset).limit(limit).all()
 
 def get_artist_by_id(session: Session, _id: int) -> Artists:
@@ -18,20 +28,26 @@ def get_artist_by_id(session: Session, _id: int) -> Artists:
 
     return artist
 
-def add_artist(session: Session, artist: Artist) -> Artists:
-    artist_details = session.query(Artists).filter(Artists.id == artist.id)
+def add_artist_info(session: Session, artist: Artist) -> Artists:
+    artist_details = session.query(Artists).filter(Artists.id == artist.id).first()
 
     if artist_details is not None:
         raise ArtistAlreadyInSystemError
 
-    new_artist = Artists(**artist.dict())
+
+    print(artist.dict())
+    sql_keys = ['id', 'name', 'total_playtime', 'user_score']
+    artistDict = {x:artist.dict()[x] for x in sql_keys}
+    print(artistDict)
+
+    new_artist = Artists(**artistDict)
     session.add(new_artist)
     session.commit()
-    session.refresh(new_artist)
+    #session.refresh(new_artist)
     return new_artist
 
 #may want to separate this into separate updations per field
-def update_artist_info(session: Session, _id: int, info_update: Artist) -> Artists:
+def update_artist_info(session: Session, _id: int, info_update: Artist) -> ArtistInfo:
     artist_details = get_artist_by_id(session, _id)
 
     if artist_details is None:
@@ -48,9 +64,13 @@ def update_artist_info(session: Session, _id: int, info_update: Artist) -> Artis
 
     return artist_details
 
-def delete_artist(session: Session, _id:int, artist_delete: Artist) -> Artists:
-    artist_details = get_artist_by(session, _id)
+# def add_album_to_artist(session)
 
+def delete_artist_info(session: Session, _id:int) -> Artists:
+    
+    artist_details = get_artist_by_id(session, _id)
+    print("ID", artist_details.dict().id)
+    print("Hello?")
     if artist_details is None:
         raise ArtistNotFoundError
 
