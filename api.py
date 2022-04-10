@@ -23,6 +23,13 @@ class System:
 
         return response
 
+    #API to get artist based on id
+    @router.get("/artist/{artist_id}")
+    def get_artist(self, artist_id: int):
+        artist = get_artist_by_id(self.session, artist_id)
+
+        return artist
+
     # API endpoint to add an artist info to the database
 
     @router.post("/artists")
@@ -35,20 +42,18 @@ class System:
 
     # API to update an existing artist info
     @router.put("/artist/{artist_id}", response_model=ArtistInfo)
-    def update_artist(artist_id: int, new_info: Artist, session: Session=Depends(get_db)):
+    def update_artist(self, artist_id: int, new_info: Artist, session: Session=Depends(get_db)):
         try:
-            artist_info = update_artist_info(session, artist_id, new_info)
+            artist_info = update_artist_info(self.session, artist_id, new_info)
             return artist_info
         except ArtistException as ae:
-            raise HTTPException(**ae.__dict)
+            raise HTTPException(**ae.__dict__)
 
     # API to delete an artist from the database
     @router.delete("/artist/{artist_id}")
-    def delete_artist(artist_id: int, session: Session=Depends(get_db)):
+    def delete_artist(self, artist_id: int, session: Session=Depends(get_db)):
         try:
-            print("ID", artist_id)
-            return delete_artist_info(session, artist_id)
+            return delete_artist_info(self.session, artist_id)
         except ArtistException as ae:
-            print("Nah")
             return HTTPException(**ae.__dict__)
     

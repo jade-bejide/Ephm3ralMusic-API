@@ -48,8 +48,8 @@ def update_artist_info(session: Session, _id: int, info_update: Artist) -> Artis
         raise ArtistNotFoundError
 
     artist_details.name = info_update.name
-    artist_details.albums = info_update.albums
-    artist_details.songs = info_update.songs
+    # artist_details.albums = info_update.albums
+    # artist_details.songs = info_update.songs
     artist_details.total_playtime = info_update.total_playtime
     artist_details.user_score = info_update.user_score 
 
@@ -63,8 +63,6 @@ def update_artist_info(session: Session, _id: int, info_update: Artist) -> Artis
 def delete_artist_info(session: Session, _id:int) -> Artists:
     
     artist_details = get_artist_by_id(session, _id)
-    print("ID", artist_details.dict().id)
-    print("Hello?")
     if artist_details is None:
         raise ArtistNotFoundError
 
