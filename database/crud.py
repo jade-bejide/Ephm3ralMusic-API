@@ -15,7 +15,7 @@ currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfram
 parentdir = os.path.dirname(currentdir)
 sys.path.insert(0, parentdir) 
 
-from dataobjects import Artist
+from dataobjects import Artist, Song, Album
 
 def get_all_artists(session: Session, limit: int, offset: int) -> List[Artist]:
     return session.query(Artists).offset(offset).limit(limit).all()
@@ -70,3 +70,66 @@ def delete_artist_info(session: Session, _id:int) -> Artists:
     session.commit()
 
     return
+
+# songs
+def get_all_songs(session: Session, limit:int, offset: int) -> List[Songs]:
+    return session.query(Songs).offset(offset).limit(limit).all()
+
+def get_all_songs_by_artist_id(session: Session, _id:int) -> List[Songs]:
+    artist = session.query(Artists).get(_id)
+
+    if artist is None:
+        raise ArtistNotFoundError
+
+    return session.query(Songs).filter_by(artist_id=_id)
+
+def add_single(session: Session, song: Song) -> Songs:
+    song_details = session.query(Songs).filter_by(song.id)
+
+    if song_details is not None:
+        raise SongAlreadyInSystemError
+
+    new_single = Songs(**song.dict())
+    session.add(new_single)
+    session.commit()
+
+    return new_single
+
+
+def add_album_by_genres(session: Session, album: Album) -> AlbumByGenres:
+    album_details = session.query(Albums).filter_by(album.id)
+ 
+    if album_details is None:
+        raise AlbumNotFoundError
+
+    album_songs_ids = session.query(Songs).select_from(Song.id).filter_by(album.id)
+    album_songs_ids_list = [song[0] for song in album_songs_ids]
+
+    ##get all songs
+    #get all songs by genre
+    albumGenres = []
+    for song in album_songs_ids_list:
+        associatedGenres = session.query(SongByGenre).select_from(SongByGenre.genre_id).filter_by(song).all()
+        associatedGenresList = [genre[0] for genre in associatedGenres]
+
+        for genre in associatedGenresList:
+            album_by_genre = AlbumByGenres(album.id, genre)
+            session.add(album_by_genre)
+            session.commit()
+
+
+    return
+
+def add_album(session: Session, album: Album) -> Albums:
+    album_details = session.query(Albums).filter_by(album.id)
+
+    if album_details is not None:
+        raise AlbumAlreadyInSystemError
+
+    new_album = Albums(**album.dict())
+    session.add(new_album)
+    session.commit()
+
+    return new_album
+
+    

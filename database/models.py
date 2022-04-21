@@ -33,12 +33,19 @@ class Albums(Base):
     total_playtime = Column(Integer)
     user_score = Column(Float)
 
+class AlbumsByArtists(Base):
+    __tablename__ = "albumsByArtists"
+
+    album_id = Column(Integer, ForeignKey(Albums.id), primary_key=True, index=True)
+    artist_id = Column(Integer, ForeignKey(Artists.id), primary_key=True)
+
 class Songs(Base):
     __tablename__ = "songs"
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(255))
     artist_id = Column(Integer, ForeignKey(Artists.id))
+    album_id = Column(Integer, ForeignKey(Albums.id))
     duration = Column(Integer)
     listens = Column(Integer)
     user_score = Column (Float)
@@ -58,11 +65,11 @@ class SongByGenre(Base):
     song_id = Column(Integer, ForeignKey(Songs.id), primary_key=True)
     
 
-class AlbumBySongs(Base):
-    __tablename__ = "albumBySongs"
+# class AlbumBySongs(Base):
+#     __tablename__ = "albumBySongs"
 
-    album_id = Column(Integer, ForeignKey(Albums.id), primary_key=True, index=True)
-    song_id = Column(Integer, ForeignKey(Songs.id), primary_key=True)
+#     album_id = Column(Integer, ForeignKey(Albums.id), primary_key=True, index=True)
+#     song_id = Column(Integer, ForeignKey(Songs.id), primary_key=True)
 
 class AlbumByGenres(Base):
     __tablename__ = "albumByGenres"
