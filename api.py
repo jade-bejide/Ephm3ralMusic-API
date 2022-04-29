@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from fastapi_utils.cbv import cbv
 from sqlalchemy.orm import Session
 
+
 from database.crud import get_all_artists, get_artist_by_id, add_artist_info, update_artist_info, delete_artist_info
 from database.database import get_db
 from database.exceptions import ArtistException

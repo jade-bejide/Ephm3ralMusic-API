@@ -65,11 +65,11 @@ class SongByGenre(Base):
     song_id = Column(Integer, ForeignKey(Songs.id), primary_key=True)
     
 
-# class AlbumBySongs(Base):
-#     __tablename__ = "albumBySongs"
+class AlbumBySongs(Base):
+    __tablename__ = "albumBySongs"
 
-#     album_id = Column(Integer, ForeignKey(Albums.id), primary_key=True, index=True)
-#     song_id = Column(Integer, ForeignKey(Songs.id), primary_key=True)
+    album_id = Column(Integer, ForeignKey(Albums.id), primary_key=True, index=True)
+    song_id = Column(Integer, ForeignKey(Songs.id), primary_key=True)
 
 class AlbumByGenres(Base):
     __tablename__ = "albumByGenres"
