@@ -9,7 +9,7 @@ async function getArtist(artist_id) {
 }
 
 async function getArtists() {
-    let artists = fetch('http://127.0.0.1:8000/artists')
+    let artists = fetch('http://127.0.0.1:8000/artists?limit=50')
     .then(response => response.json())
     .then(data => {console.log(data)})
     .catch(error => console.log(error));
@@ -18,7 +18,7 @@ async function getArtists() {
 }
 
 async function buildArtistTable() {
-    let artists = fetch('http://127.0.0.1:8000/artists')
+    let artists = fetch('http://127.0.0.1:8000/artists?limit=50')
     .then(response => response.json())
     .then((data) => {
         let heading = document.createElement('h2');
