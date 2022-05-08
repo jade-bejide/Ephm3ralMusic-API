@@ -2,3 +2,8 @@ database/database.py
 database/spotifyconnection.py
 database/spotifycredentials.py
 database/.cache
+encryption/
+JavaAPIWrapper/
+__pycache__/
+./__pycache__/
+*/__pycache__/

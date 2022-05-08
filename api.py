@@ -1,7 +1,16 @@
-from fastapi import APIRouter, Depends, HTTPException
+from base64 import encode
+from fastapi import APIRouter, Depends, HTTPException, FastAPI, Response
+from fastapi.responses import JSONResponse
 from fastapi_utils.cbv import cbv
+from fastapi_utils.inferring_router import InferringRouter
 from sqlalchemy.orm import Session
+import hashlib
+import json
+from objecttojson import serialiseObjectList
 
+#Encrytpion
+from cryptography.fernet import Fernet
+from encryption.aescipher import get_key
 
 from database.crud import get_all_artists, get_artist_by_id, add_artist_info, update_artist_info, delete_artist_info
 from database.database import get_db
@@ -9,7 +18,10 @@ from database.exceptions import ArtistException
 from database.schemas import ArtistInfo, PaginatedArtistsInfo
 from dataobjects import Artist
 
-router = APIRouter()
+app = FastAPI()
+router = InferringRouter()
+
+key = Fernet(get_key())
 
 @cbv(router)
 class System:
@@ -20,8 +32,17 @@ class System:
     @router.get("/artists")
     def list_artists(self, limit: int = 10, offset: int = 0):
         artist_list = get_all_artists(self.session, limit, offset)
-        response = {"limit": limit, "offset": offset, "data": artist_list}
+        
+        responseContent = {"limit": limit, "offset": offset, "data": serialiseObjectList(artist_list)}
+        response = JSONResponse(content=responseContent)
+        self.create_cookie(response, responseContent)
+        return response
 
+    @router.post("/cookie/")
+    def create_cookie(self, response: Response, msg: str):
+        en = str(key.encrypt(str.encode(json.dumps(msg))))
+        en = en[2:len(en)]
+        response.set_cookie(key="ephm3ralmusic", value=en)
         return response
 
     #API to get artist based on id
@@ -29,6 +50,8 @@ class System:
     def get_artist(self, artist_id: int):
         artist = get_artist_by_id(self.session, artist_id)
 
+        response = JSONResponse(content=artist.as_dict())
+        self.create_cookie(response, artist.as_dict())
         return artist
 
     # API endpoint to add an artist info to the database
@@ -57,4 +80,3 @@ class System:
             return delete_artist_info(self.session, artist_id)
         except ArtistException as ae:
             return HTTPException(**ae.__dict__)
-    

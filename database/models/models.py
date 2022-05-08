@@ -12,10 +12,12 @@ import dataobjects
 from sqlalchemy.schema import Column, ForeignKey
 from sqlalchemy.types import String, Integer, Enum, Float, DateTime
 from database.database import Base, meta, db_engine
+from database.baseModel import Model
 import enum
 
+# each model displays multiple inheritance from Base and Model
 #need to add not null as appropriate 
-class Artists(Base):
+class Artists(Base, Model):
     __tablename__ = "artists"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -23,7 +25,9 @@ class Artists(Base):
     total_playtime = Column(Integer)
     user_score = Column(Float)
 
-class Albums(Base):
+
+
+class Albums(Base, Model):
     __tablename__ = "albums"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -33,13 +37,15 @@ class Albums(Base):
     total_playtime = Column(Integer)
     user_score = Column(Float)
 
-class AlbumsByArtists(Base):
+
+
+class AlbumsByArtists(Base, Model):
     __tablename__ = "albumsByArtists"
 
     album_id = Column(Integer, ForeignKey(Albums.id), primary_key=True, index=True)
     artist_id = Column(Integer, ForeignKey(Artists.id), primary_key=True)
 
-class Songs(Base):
+class Songs(Base, Model):
     __tablename__ = "songs"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -50,7 +56,7 @@ class Songs(Base):
     listens = Column(Integer)
     user_score = Column (Float)
 
-class Genres(Base):
+class Genres(Base, Model):
     __tablename__ = "genres"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -58,20 +64,20 @@ class Genres(Base):
     avg_listeners = Column(Float)
     avg_score = Column(Float)
 
-class SongByGenre(Base):
+class SongByGenre(Base, Model):
     __tablename__ = "songByGenre"
 
     genre_id = Column(Integer, ForeignKey(Genres.id), primary_key=True, index=True)
     song_id = Column(Integer, ForeignKey(Songs.id), primary_key=True)
     
 
-class AlbumBySongs(Base):
+class AlbumBySongs(Base, Model):
     __tablename__ = "albumBySongs"
 
     album_id = Column(Integer, ForeignKey(Albums.id), primary_key=True, index=True)
     song_id = Column(Integer, ForeignKey(Songs.id), primary_key=True)
 
-class AlbumByGenres(Base):
+class AlbumByGenres(Base, Model):
     __tablename__ = "albumByGenres"
 
     album_id = Column(Integer, ForeignKey(Albums.id), primary_key=True, index=True)

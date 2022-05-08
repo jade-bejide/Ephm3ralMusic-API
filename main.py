@@ -1,4 +1,5 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Response
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 import uvicorn
 import api
@@ -10,10 +11,7 @@ app.include_router(api.router)
 origins = [
     "http://localhost",
     "http://localhost:8000",
-    "http://localhost:8080",
-    "http://localhost:8080/artists",
-    "http://127.0.0.1:8000/artists",
-    "file://C:/Users/jades/Documents/Python%20Scripts/APIs/Ephm3ralMusic-API/examplewebpage.html"
+    "http://localhost:8080"
 ]
 
 app.add_middleware(

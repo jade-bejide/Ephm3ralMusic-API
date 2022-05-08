@@ -21,6 +21,12 @@ async function buildArtistTable() {
     let artists = fetch('http://127.0.0.1:8000/artists?limit=50')
     .then(response => response.json())
     .then((data) => {
+
+        let info = [data];
+        info = info.sort((a, b) => a.user_score - b.user_score);
+        data = info[0];
+        console.log(info);
+        console.log(data);
         let heading = document.createElement('h2');
         heading.textContent = 'Your Artists';
 
