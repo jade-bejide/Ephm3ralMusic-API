@@ -1,11 +1,12 @@
 from typing import List
+from fastapi import Cookie
 from sqlalchemy.orm import Session
 from database.exceptions import ArtistAlreadyInSystemError, ArtistNotFoundError, \
  AlbumAlreadyInSystemError, AlbumNotFoundError, \
     GenreAlreadyInSystemError, GenreNotFoundError, \
     SongAlreadyInSystemError, SongNotFoundError
-from database.models import Artists, Albums, Songs, Genres, SongByGenre, AlbumByGenres, AlbumBySongs
-from database.schemas import ArtistInfo, Albums, Songs, Genres
+from database.models.models import Artists, Albums, Songs, Genres, SongByGenre, AlbumByGenres, AlbumBySongs, Cookies
+from database.models.schemas import ArtistInfo, Albums, Songs, Genres
 
 import os
 import sys
@@ -16,6 +17,15 @@ parentdir = os.path.dirname(currentdir)
 sys.path.insert(0, parentdir) 
 
 from dataobjects import Artist, Song, Album
+
+def add_cookie(session: Session, cookie: Cookie, key: str) -> Cookie:
+    cookie_dict = {
+        "cookie_content": cookie,
+        "cookie_key": str(key)
+    }
+    new_cookie = Cookies(**cookie_dict)
+    session.add(new_cookie)
+    session.commit()
 
 def get_all_artists(session: Session, limit: int, offset: int) -> List[Artist]:
     return session.query(Artists).offset(offset).limit(limit).all()

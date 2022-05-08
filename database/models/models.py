@@ -6,13 +6,12 @@ currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfram
 parentdir = os.path.dirname(currentdir)
 sys.path.insert(0, parentdir) 
 
-import dataobjects
 
 #sql stuff
 from sqlalchemy.schema import Column, ForeignKey
-from sqlalchemy.types import String, Integer, Enum, Float, DateTime
+from sqlalchemy.types import String, Integer, Enum, Float, DateTime, Text
 from database.database import Base, meta, db_engine
-from database.baseModel import Model
+from models.baseModel import Model
 import enum
 
 # each model displays multiple inheritance from Base and Model
@@ -24,6 +23,13 @@ class Artists(Base, Model):
     name = Column(String(255))
     total_playtime = Column(Integer)
     user_score = Column(Float)
+
+class Cookies(Base, Model):
+    __tablename__ = "queries"
+
+    id = Column(Integer, primary_key=True, index=True)
+    cookie_content = Column(Text)
+    cookie_key = Column(Text)
 
 
 

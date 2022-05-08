@@ -12,10 +12,10 @@ from objecttojson import serialiseObjectList
 from cryptography.fernet import Fernet
 from encryption.aescipher import get_key
 
-from database.crud import get_all_artists, get_artist_by_id, add_artist_info, update_artist_info, delete_artist_info
+from database.crud import get_all_artists, get_artist_by_id, add_artist_info, update_artist_info, delete_artist_info, add_cookie
 from database.database import get_db
 from database.exceptions import ArtistException
-from database.schemas import ArtistInfo, PaginatedArtistsInfo
+from database.models.schemas import ArtistInfo, PaginatedArtistsInfo
 from dataobjects import Artist
 
 app = FastAPI()
@@ -42,17 +42,21 @@ class System:
     def create_cookie(self, response: Response, msg: str):
         en = str(key.encrypt(str.encode(json.dumps(msg))))
         en = en[2:len(en)]
-        response.set_cookie(key="ephm3ralmusic", value=en)
+        add_cookie(self.session, en, get_key())
+        response.set_cookie(key="ephm3ralmusic", value=en, domain="127.0.0.1:8000")
         return response
 
     #API to get artist based on id
     @router.get("/artist/{artist_id}")
     def get_artist(self, artist_id: int):
-        artist = get_artist_by_id(self.session, artist_id)
+        try: 
+            artist = get_artist_by_id(self.session, artist_id)
 
-        response = JSONResponse(content=artist.as_dict())
-        self.create_cookie(response, artist.as_dict())
-        return artist
+            response = JSONResponse(content=artist.as_dict())
+            self.create_cookie(response, artist.as_dict())
+            return response
+        except:
+            return {"Error": "Artist Not Found"}
 
     # API endpoint to add an artist info to the database
 
