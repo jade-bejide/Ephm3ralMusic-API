@@ -5,5 +5,4 @@ database/.cache
 encryption/
 JavaAPIWrapper/
 __pycache__/
-./__pycache__/
 */__pycache__/
