@@ -10,7 +10,7 @@ sys.path.insert(0, parentdir)
 #sql stuff
 from sqlalchemy.schema import Column, ForeignKey
 from sqlalchemy.types import String, Integer, Enum, Float, DateTime, Text
-from database.database import Base, meta, db_engine
+from db import Base, meta, db_engine
 from models.baseModel import Model
 import enum
 
@@ -57,7 +57,7 @@ class Songs(Base, Model):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(255))
     artist_id = Column(Integer, ForeignKey(Artists.id))
-    album_id = Column(Integer, ForeignKey(Albums.id))
+    #album_id = Column(Integer, ForeignKey(Albums.id))
     duration = Column(Integer)
     listens = Column(Integer)
     user_score = Column (Float)

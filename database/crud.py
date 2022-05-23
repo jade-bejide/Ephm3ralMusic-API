@@ -5,7 +5,7 @@ from database.exceptions import ArtistAlreadyInSystemError, ArtistNotFoundError,
  AlbumAlreadyInSystemError, AlbumNotFoundError, \
     GenreAlreadyInSystemError, GenreNotFoundError, \
     SongAlreadyInSystemError, SongNotFoundError
-from database.models.models import Artists, Albums, Songs, Genres, SongByGenre, AlbumByGenres, AlbumBySongs, Cookies
+from database.models.dbmodels import Artists, Albums, Songs, Genres, SongByGenre, AlbumByGenres, AlbumBySongs, Cookies
 from database.models.schemas import ArtistInfo, Albums, Songs, Genres
 
 import os
