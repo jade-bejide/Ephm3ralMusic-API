@@ -13,7 +13,7 @@ from cryptography.fernet import Fernet
 from encryption.aescipher import get_key
 
 from database.crud import get_all_artists, get_artist_by_id, add_artist_info, update_artist_info, delete_artist_info, add_cookie
-from database.database import get_db
+from database.db import get_db
 from database.exceptions import ArtistException
 from database.models.schemas import ArtistInfo, PaginatedArtistsInfo
 from dataobjects import Artist
