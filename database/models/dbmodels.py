@@ -38,13 +38,15 @@ class Albums(Base, Model):
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(255))
-    release_date = Column(DateTime)
+    release_date = Column(String(255))
     listens = Column(Integer)
     total_playtime = Column(Integer)
     user_score = Column(Float)
+    artist_id = Column(Integer, ForeignKey(Artists.id))
+    cover = Column(String(255))
 
 
-
+#Potentially unnecessary
 class AlbumsByArtists(Base, Model):
     __tablename__ = "albumsByArtists"
 

@@ -6,7 +6,7 @@ from database.exceptions import ArtistAlreadyInSystemError, ArtistNotFoundError,
     GenreAlreadyInSystemError, GenreNotFoundError, \
     SongAlreadyInSystemError, SongNotFoundError
 from database.models.dbmodels import Artists, Albums, Songs, Genres, SongByGenre, AlbumByGenres, AlbumBySongs, Cookies
-from database.models.schemas import ArtistInfo, Albums, SongsInfo, Genres
+from database.models.schemas import ArtistInfo, AlbumsInfo, SongsInfo, Genres
 
 import os
 import sys
@@ -90,7 +90,7 @@ def get_single_by_id(session: Session, _id: int) -> Songs:
         raise SongNotFoundError
 
     return single
-    
+
 def get_all_songs(session: Session, limit:int, offset: int) -> List[Song]:
     return session.query(Songs).offset(offset).limit(limit).all()
 
@@ -124,6 +124,18 @@ def add_single(session: Session, song: Song) -> Songs:
     session.commit()
 
     return new_single
+
+# albums
+def get_all_albums(session: Session, limit: int, offset: int) -> List[Album]:
+    return session.query(Albums).offset(offset).limit(limit).all()
+
+def get_all_albums_by_artistId(session: Session, _id: int) -> List[Album]:
+
+    artist = session.query(Artists).get(_id)
+    if artist is None:
+        raise ArtistNotFoundError
+
+    return session.query(Albums).filter_by(artist_id=_id).all()
 
 
 def add_album_by_genres(session: Session, album: Album) -> AlbumByGenres:
