@@ -1,4 +1,5 @@
 from base64 import encode
+from tempfile import TemporaryFile
 from fastapi import APIRouter, Depends, HTTPException, FastAPI, Response
 from fastapi.responses import JSONResponse
 from fastapi_utils.cbv import cbv
@@ -12,11 +13,11 @@ from objecttojson import serialiseObjectList
 from cryptography.fernet import Fernet
 from encryption.aescipher import get_key
 
-from database.crud import get_all_artists, get_artist_by_id, add_artist_info, update_artist_info, delete_artist_info, add_cookie
+from database.crud import get_all_artists, get_single_by_id, get_all_songs, get_all_songs_by_artist_id, get_artist_by_id, add_artist_info, update_artist_info, delete_artist_info, add_cookie
 from database.db import get_db
-from database.exceptions import ArtistException
+from database.exceptions import ArtistException, SongException
 from database.models.schemas import ArtistInfo, PaginatedArtistsInfo
-from dataobjects import Artist
+from dataobjects import Artist, Song
 
 app = FastAPI()
 router = InferringRouter()
@@ -57,6 +58,43 @@ class System:
             return response
         except:
             return {"Error": "Artist Not Found"}
+
+    @router.get("/songs")
+    def get_all_songs(self, limit = 10, offset = 0):
+        try:
+            songs = get_all_songs(self.session, limit, offset)
+
+            return JSONResponse(serialiseObjectList(songs))
+
+        except:
+            return {"Error": "Error"}
+
+    @router.get("/song/{song_id}")
+    def get_song_by_id(self, song_id: int):
+        try:
+            song = get_single_by_id(self.session, song_id)
+
+            return JSONResponse(content=song.as_dict())
+        except:
+            return {"Error": "Song Not Found"}
+
+    @router.get("/artist/{artist_id}/songs")
+    def get_songs_by_artist(self, artist_id: int):
+        try:
+            songs = get_all_songs_by_artist_id(self.session, artist_id)
+            response = JSONResponse(content=serialiseObjectList(songs))
+            return response
+        except:
+            return {"Error": "Artist Not Found So Cannot Deliver Songs"}
+
+    @router.post("/songs")
+    def add_song(self, song_info: Song):
+        try:
+            song_info = add_single(self.session, song_info)
+            return song_info
+        except SongException as se:
+            raise HTTPException(**se.__dict__)
+    
 
     # API endpoint to add an artist info to the database
 

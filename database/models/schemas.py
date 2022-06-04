@@ -31,14 +31,14 @@ class PaginatedAlbumsInfo(Albums):
     offset: int
     data: List[Albums]
 
-class Songs(Song):
+class SongsInfo(Song):
     class Config:
         orm_mode = True
 
-class PaginatedSongsInfo(Songs):
+class PaginatedSongsInfo(SongsInfo):
     limit: int
     offset: int
-    data: List[Songs]
+    data: List[SongsInfo]
 
 class Genres(Genre):
     class Config:

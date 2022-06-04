@@ -6,7 +6,7 @@ from database.exceptions import ArtistAlreadyInSystemError, ArtistNotFoundError,
     GenreAlreadyInSystemError, GenreNotFoundError, \
     SongAlreadyInSystemError, SongNotFoundError
 from database.models.dbmodels import Artists, Albums, Songs, Genres, SongByGenre, AlbumByGenres, AlbumBySongs, Cookies
-from database.models.schemas import ArtistInfo, Albums, Songs, Genres
+from database.models.schemas import ArtistInfo, Albums, SongsInfo, Genres
 
 import os
 import sys
@@ -82,16 +82,36 @@ def delete_artist_info(session: Session, _id:int) -> Artists:
     return
 
 # songs
-def get_all_songs(session: Session, limit:int, offset: int) -> List[Songs]:
+
+def get_single_by_id(session: Session, _id: int) -> Songs:
+    single = session.query(Songs).get(_id)
+
+    if single is None:
+        raise SongNotFoundError
+
+    return single
+    
+def get_all_songs(session: Session, limit:int, offset: int) -> List[Song]:
     return session.query(Songs).offset(offset).limit(limit).all()
 
-def get_all_songs_by_artist_id(session: Session, _id:int) -> List[Songs]:
+def get_all_songs_by_artist_id(session: Session, _id:int) -> List[Song]:
+    
     artist = session.query(Artists).get(_id)
-
     if artist is None:
         raise ArtistNotFoundError
 
-    return session.query(Songs).filter_by(artist_id=_id)
+    songs = session.query(Songs).filter_by(artist_id=_id).all()
+
+    return songs
+
+def delete_single(session: Session, song_id: int) -> Songs:
+    single_details = get_song_by_id(session, _id)
+    if single_details is None:
+        raise SongNotFoundError
+    
+    session.delete(single_details)
+    session.commit()
+    return
 
 def add_single(session: Session, song: Song) -> Songs:
     song_details = session.query(Songs).filter_by(song.id)
