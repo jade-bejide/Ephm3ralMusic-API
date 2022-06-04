@@ -67,7 +67,7 @@ class System:
             return JSONResponse(serialiseObjectList(songs))
 
         except:
-            return {"Error": "Error"}
+            return {"Error": "Could not get songs"}
 
     @router.get("/song/{song_id}")
     def get_song_by_id(self, song_id: int):
