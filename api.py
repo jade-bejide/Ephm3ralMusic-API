@@ -13,7 +13,7 @@ from objecttojson import serialiseObjectList
 from cryptography.fernet import Fernet
 from encryption.aescipher import get_key
 
-from database.crud import get_all_artists, get_single_by_id, get_all_songs, get_all_songs_by_artist_id, get_artist_by_id, add_artist_info, update_artist_info, delete_artist_info, add_cookie
+from database.crud import get_all_albums_by_artistId, get_all_artists, get_single_by_id, get_all_songs, get_all_songs_by_artist_id, get_artist_by_id, add_artist_info, update_artist_info, delete_artist_info, add_cookie, get_all_albums
 from database.db import get_db
 from database.exceptions import ArtistException, SongException
 from database.models.schemas import ArtistInfo, PaginatedArtistsInfo
@@ -69,6 +69,28 @@ class System:
         except:
             return {"Error": "Could not get songs"}
 
+    @router.get("/albums")
+    def get_all_albums(self, limit = 10, offset = 0):
+        try:
+            albums = get_all_albums(self.session, limit, offset)
+            print(serialiseObjectList(albums))
+
+            return JSONResponse(content=serialiseObjectList(albums))
+
+        except:
+            return {"Error": "Could not get albums"}
+
+    @router.get("/artist/{artist_id}/albums")
+    def get_all_albums_by_artist(self, artist_id):
+        try:
+            print("f")
+            albums = get_all_albums_by_artistId(self.session, artist_id)
+            
+
+            return JSONResponse(content=serialiseObjectList(albums))
+        except:
+            return {"Error": "Could not find songs from artist"}
+
     @router.get("/song/{song_id}")
     def get_song_by_id(self, song_id: int):
         try:
@@ -94,6 +116,8 @@ class System:
             return song_info
         except SongException as se:
             raise HTTPException(**se.__dict__)
+
+    
     
 
     # API endpoint to add an artist info to the database

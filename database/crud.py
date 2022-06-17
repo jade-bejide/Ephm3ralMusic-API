@@ -1,6 +1,6 @@
 from typing import List
 from fastapi import Cookie
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, Query
 from database.exceptions import ArtistAlreadyInSystemError, ArtistNotFoundError, \
  AlbumAlreadyInSystemError, AlbumNotFoundError, \
     GenreAlreadyInSystemError, GenreNotFoundError, \
