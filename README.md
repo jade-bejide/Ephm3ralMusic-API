@@ -23,7 +23,7 @@ endpoint for the upcoming Ephm3ral Music web application and is also freely avai
 ## Get Started
 *This project is not fully production ready*
 <br />
-The API endpoint can be accessed via <a href="https://https://ephm3ralmusicapi.herokuapp.com/" target="_blank">this webpage</a>.
+The API endpoint can be accessed via <a href="https://ephm3ralmusicapi.herokuapp.com/" target="_blank">this webpage</a>.
 
 ## Documentation
 
