@@ -25,4 +25,4 @@ app.add_middleware(
 #GET operation at root
 @app.get('/')
 def root():
-    return {"Ephm3ralMusic-API": "Insert welcome message here"}
+    return {"Ephm3ralMusic-API": "Home"}
