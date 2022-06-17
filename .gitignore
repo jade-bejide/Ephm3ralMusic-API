@@ -1,3 +1,6 @@
 __pycache__/
 */__pycache__/
 .cache*
+database/spcredentials.py
+database/spotifyconnection.py
+database/spotifycredentials.py
