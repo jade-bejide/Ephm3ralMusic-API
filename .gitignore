@@ -1,11 +1,3 @@
-database/db.py
-database/models/db.py
-database/spotifyconnection.py
-database/spotifycredentials.py
-database/.cache
-database/mongodb/
-encryption/
-JavaAPIWrapper/
 __pycache__/
 */__pycache__/
 .cache*
