@@ -25,7 +25,63 @@ endpoint for the upcoming Ephm3ral Music web application and is also freely avai
 <br />
 The API endpoint can be accessed via <a href="https://ephm3ralmusicapi.herokuapp.com/" target="_blank">this webpage</a>.
 
+### Example Code
+#### Python
+
+```python
+import requests
+from pprint import pprint
+
+#fetch all albums
+albums_response = requests.get("https://ephm3ralmusicapi.herokuapp.com/albums")
+
+albums = albums_response.json()
+
+pprint(albums)
+```
+
+#### JavaScript
+
+```javascript
+const artistAlbums = `https://ephm3ralmusicapi.herokuapp.com/artist/5/albums`;
+
+//fetch albums by a specific artist
+let response = fetch(artistAlbums)
+		.then(response => response.json())
+		.then(data => console.log(data))
+		.catch(error => console.log(error));
+```
+
 ## Documentation
+### Artists
+
+Get all artists (default limit of 10)
+<br />
+```https://ephm3ralmusicapi.herokuapp.com/artists```
+
+Get an artist by id
+<br />
+```https://ephm3ralmusicapi.herokuapp.com/artist/{id}```
+
+### Songs
+
+Get all songs (default limit of 10)
+<br />
+```https://ephm3ralmusicapi.herokuapp.com/songs```
+
+Get all songs by a specific artis, by id
+<br />
+```https://ephm3ralmusicapi.herokuapp.com/artist/{id}/songs```
+
+### Albums
+
+Get all albums (default limit of 10)
+<br />
+```https://ephm3ralmusicapi.herokuapp.com/albums```
+
+Get all albums by a specific artist, by id
+<br />
+```https://ephm3ralmusicapi.herokuapp.com/artist/{id}/albums```
 
 ## Example Usages
 <ul>
