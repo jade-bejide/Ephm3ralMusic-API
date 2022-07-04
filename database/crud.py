@@ -105,7 +105,7 @@ def get_all_songs_by_artist_id(session: Session, _id:int) -> List[Song]:
     return songs
 
 def delete_single(session: Session, song_id: int) -> Songs:
-    single_details = get_song_by_id(session, _id)
+    single_details = get_single_by_id(session, song_id)
     if single_details is None:
         raise SongNotFoundError
     
