@@ -23,6 +23,7 @@ class Artists(Base, Model):
     name = Column(String(255))
     total_playtime = Column(Integer)
     user_score = Column(Float)
+    cover = Column(String(255))
 
 class Cookies(Base, Model):
     __tablename__ = "queries"
@@ -63,6 +64,7 @@ class Songs(Base, Model):
     duration = Column(Integer)
     listens = Column(Integer)
     user_score = Column (Float)
+    cover = Column(String(255))
 
 class Genres(Base, Model):
     __tablename__ = "genres"
