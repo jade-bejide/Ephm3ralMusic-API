@@ -37,6 +37,11 @@ class GenreAlreadyInSystemError(GenreException):
         self.status_code = "409"
         self.detail = "Genre Already On System"
 
+class NoGenresInSystem(GenreException):
+    def __init__(self):
+        self.status_code = "404"
+        self.detail = "No Genres On the System"
+
 class SongException(Exception):
     ...
 

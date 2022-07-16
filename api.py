@@ -13,9 +13,9 @@ from objecttojson import serialiseObjectList
 from cryptography.fernet import Fernet
 from encryption.aescipher import get_key
 
-from database.crud import get_all_albums_by_artistId, get_all_artists, get_single_by_id, get_all_songs, get_all_songs_by_artist_id, get_artist_by_id, add_artist_info, update_artist_info, delete_artist_info, add_cookie, get_all_albums
+from database.crud import add_single, get_all_albums_by_artistId, get_all_artists, get_genres, get_single_by_id, get_all_songs, get_all_songs_by_artist_id, get_artist_by_id, add_artist_info, update_artist_info, delete_artist_info, add_cookie, get_all_albums
 from database.db import get_db
-from database.exceptions import ArtistException, SongException
+from database.exceptions import ArtistException, NoGenresInSystem, SongException
 from database.models.schemas import ArtistInfo, PaginatedArtistsInfo
 from dataobjects import Artist, Song
 
@@ -146,3 +146,12 @@ class System:
             return delete_artist_info(self.session, artist_id)
         except ArtistException as ae:
             return HTTPException(**ae.__dict__)
+
+    #API endpoint for genre related calls
+
+    @router.get("/genres")
+    def get_all_genres(self, session: Session=Depends(get_db)):
+        try:
+            return get_genres(self.session)
+        except NoGenresInSystem as ge:
+            return HTTPException(**ge.__dict__)
