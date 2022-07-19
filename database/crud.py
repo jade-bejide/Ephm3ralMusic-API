@@ -187,8 +187,11 @@ def get_genre_by_id(session: Session, genre_id: int):
 
     return id
 
-def get_genres_from_artist(session: Session, artist_id: int):
+def get_genres_from_artist(session: Session, artist_id: int, show_id: bool):
     genre_entries = session.query(ArtistByGenres).filter_by(artist_id=artist_id).all()
+
+
+    if show_id: return genre_entries
 
     entries = []
     for entry in genre_entries:
@@ -205,9 +208,10 @@ def parse_genre_dict(session, genre_dict):
 
     return named_entry
 
-def get_genre_from_artist(session: Session, artist_id: int, genre_id: int):
+def get_genre_from_artist(session: Session, artist_id: int, genre_id: int, show_id: bool):
     genre_entry = session.query(ArtistByGenres).filter_by(artist_id=artist_id, genre_id=genre_id).first()
 
+    if show_id: return genre_entry
     return parse_genre_dict(session, genre_entry.__dict__)
 
     

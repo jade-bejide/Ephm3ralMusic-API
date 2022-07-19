@@ -156,15 +156,15 @@ class System:
             return HTTPException(**ge.__dict__)
 
     @router.get("/artist/{artist_id}/genres")
-    def get_all_genres_by_artist(self, artist_id: int, session: Session=Depends(get_db)):
+    def get_all_genres_by_artist(self, artist_id: int, session: Session=Depends(get_db), show_id=False):
         try:
-            return get_genres_from_artist(self.session, artist_id)
+            return get_genres_from_artist(self.session, artist_id, show_id)
         except ArtistGenreError as age:
             return HTTPException(**age.__dict__)
 
     @router.get("/artist/{artist_id}/genres/{genre_id}")
-    def get_genre_by_artist(self, artist_id: int, genre_id: int, session: Session=Depends(get_db)):
+    def get_genre_by_artist(self, artist_id: int, genre_id: int, session: Session=Depends(get_db), show_id=False):
         try:
-            return get_genre_from_artist(self.session, artist_id, genre_id)
+            return get_genre_from_artist(self.session, artist_id, genre_id, show_id)
         except ArtistGenreError as age:
             return HTTPException(**age.__dict__)
