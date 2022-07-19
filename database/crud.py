@@ -183,7 +183,7 @@ def get_genres(session: Session):
     return genre_entries
 
 def get_genre_by_id(session: Session, genre_id: int):
-    id = session.query(Genres).filter_by(genre_id=genre_id).first()
+    id = session.query(Genres).filter_by(id=genre_id).first()
 
     return id
 
