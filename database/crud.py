@@ -199,8 +199,8 @@ def get_genre_from_artist(session: Session, artist_id: int, genre_id: int):
 
     named_entries = {}
 
-    named_entries["artist"] = get_artist_by_id(genre_dict["artist_id"]).__dict__["name"]
-    named_entries["genre"] = get_genre_by_id(genre_dict["genre_id"]).__dict__["name"]
+    named_entries["artist"] = get_artist_by_id(session, genre_dict["artist_id"]).__dict__["name"]
+    named_entries["genre"] = get_genre_by_id(session, genre_dict["genre_id"]).__dict__["name"]
 
     return named_entries
 
