@@ -195,13 +195,15 @@ def get_genres_from_artist(session: Session, artist_id: int):
 def get_genre_from_artist(session: Session, artist_id: int, genre_id: int):
     genre_entry = session.query(ArtistByGenres).filter_by(artist_id=artist_id, genre_id=genre_id)
 
+    genre_dict = genre_entry.__dict__
+
     named_entries = {}
 
-    print(genre_entry.values())
+    print(genre_dict.values())
 
-    for key in genre_entry.keys():
+    for key in genre_dict.keys():
         print(key)
 
-    return genre_entry
+    return genre_dict
 
     
