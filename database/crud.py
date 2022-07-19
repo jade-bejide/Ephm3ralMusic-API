@@ -193,7 +193,7 @@ def get_genres_from_artist(session: Session, artist_id: int):
     return genre_entries
 
 def get_genre_from_artist(session: Session, artist_id: int, genre_id: int):
-    genre_entry = session.query(ArtistByGenres).filter_by(artist_id=artist_id, genre_id=genre_id)
+    genre_entry = session.query(ArtistByGenres).filter_by(artist_id=artist_id, genre_id=genre_id).first()
 
     genre_dict = genre_entry.__dict__
 
