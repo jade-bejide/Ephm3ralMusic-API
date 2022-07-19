@@ -178,7 +178,7 @@ def add_album(session: Session, album: Album) -> Albums:
 #Genres
 
 def get_genres(session: Session):
-    genre_entries = session.execute(select(Genres.name)).all()
+    genre_entries = session.query(Genres).all()
 
     return genre_entries
 
