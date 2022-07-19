@@ -1,5 +1,6 @@
 from typing import List
 from fastapi import Cookie
+from sqlalchemy import select
 from sqlalchemy.orm import Session, Query
 from database.exceptions import ArtistAlreadyInSystemError, ArtistNotFoundError, \
  AlbumAlreadyInSystemError, AlbumNotFoundError, \
@@ -177,7 +178,7 @@ def add_album(session: Session, album: Album) -> Albums:
 #Genres
 
 def get_genres(session: Session):
-    genre_entries = session.query(Genres).all()
+    genre_entries = session.execute(select(Genres.name)).all()
 
     return genre_entries
 
