@@ -42,6 +42,11 @@ class NoGenresInSystem(GenreException):
         self.status_code = "404"
         self.detail = "No Genres On the System"
 
+class ArtistGenreError(GenreException):
+    def __init__(self):
+        self.status_code = "404"
+        self.detail = "Either artist not found or no genres associated with this artist id"
+
 class SongException(Exception):
     ...
 
