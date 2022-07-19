@@ -190,18 +190,24 @@ def get_genre_by_id(session: Session, genre_id: int):
 def get_genres_from_artist(session: Session, artist_id: int):
     genre_entries = session.query(ArtistByGenres).filter_by(artist_id=artist_id).all()
 
-    return genre_entries
+    entries = []
+    for entry in genre_entries:
+        entry_dict = entry.__dict__
+        entries.append(parse_genre_dict(session, entry_dict))
+
+    return entries
+
+def parse_genre_dict(session, genre_dict):
+    named_entry = {}
+
+    named_entry["artist"] = get_artist_by_id(session, genre_dict["artist_id"]).__dict__["name"]
+    named_entry["genre"] = get_genre_by_id(session, genre_dict["genre_id"]).__dict__["name"]   
+
+    return named_entry
 
 def get_genre_from_artist(session: Session, artist_id: int, genre_id: int):
     genre_entry = session.query(ArtistByGenres).filter_by(artist_id=artist_id, genre_id=genre_id).first()
 
-    genre_dict = genre_entry.__dict__
-
-    named_entries = {}
-
-    named_entries["artist"] = get_artist_by_id(session, genre_dict["artist_id"]).__dict__["name"]
-    named_entries["genre"] = get_genre_by_id(session, genre_dict["genre_id"]).__dict__["name"]
-
-    return named_entries
+    return parse_genre_dict(session, genre_entry.__dict__)
 
     
