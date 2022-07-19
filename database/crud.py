@@ -6,7 +6,7 @@ from database.exceptions import ArtistAlreadyInSystemError, ArtistNotFoundError,
  AlbumAlreadyInSystemError, AlbumNotFoundError, \
     GenreAlreadyInSystemError, GenreNotFoundError, \
     SongAlreadyInSystemError, SongNotFoundError
-from database.models.dbmodels import Artists, Albums, Songs, Genres, SongByGenre, AlbumByGenres, AlbumBySongs, Cookies
+from database.models.dbmodels import ArtistByGenres, Artists, Albums, Songs, Genres, SongByGenre, AlbumByGenres, AlbumBySongs, Cookies
 from database.models.schemas import ArtistInfo, AlbumsInfo, SongsInfo
 
 import os
@@ -182,13 +182,25 @@ def get_genres(session: Session):
 
     return genre_entries
 
+def get_genre_by_id(session: Session, genre):
+    id = session.query(Genres).filter_by(name=genre).first()
+
+    return id
+
 def get_genres_from_artist(session: Session, artist_id: int):
-    genre_entries = session.query(Genres).filter_by(artist_id=artist_id).all()
+    genre_entries = session.query(ArtistByGenres).filter_by(artist_id=artist_id).all()
 
     return genre_entries
 
 def get_genre_from_artist(session: Session, artist_id: int, genre_id: int):
-    genre_entry = session.query(Genres).filter_by(artist_id=artist_id, genre_id=genre_id)
+    genre_entry = session.query(ArtistByGenres).filter_by(artist_id=artist_id, genre_id=genre_id)
+
+    named_entries = {}
+
+    print(genre_entry.as_dict().values())
+
+    for key in genre_entry.as_dict().keys():
+        print(key)
 
     return genre_entry
 

@@ -83,7 +83,6 @@ class System:
     @router.get("/artist/{artist_id}/albums")
     def get_all_albums_by_artist(self, artist_id):
         try:
-            print("f")
             albums = get_all_albums_by_artistId(self.session, artist_id)
             
 
