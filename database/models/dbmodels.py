@@ -95,11 +95,11 @@ class AlbumByGenres(Base, Model):
     album_id = Column(Integer, ForeignKey(Albums.id), primary_key=True, index=True)
     genre_id = Column(Integer, ForeignKey(Genres.id), primary_key=True)
 
-# class ArtistByGenres(Base, Model):
-#     __tablename__ = "artistByGenres"
+class ArtistByGenres(Base, Model):
+    __tablename__ = "artistByGenres"
 
-#     artist_id = Column(Integer, ForeignKey(Artists.id), primary_key=True, index=True)
-#     genre_id = Column(Integer, ForeignKey(Genres.id), primary_key=True)
+    artist_id = Column(Integer, ForeignKey(Artists.id), primary_key=True, index=True)
+    genre_id = Column(Integer, ForeignKey(Genres.id), primary_key=True)
 
 meta.create_all(db_engine)
 
