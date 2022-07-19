@@ -197,9 +197,9 @@ def get_genre_from_artist(session: Session, artist_id: int, genre_id: int):
 
     named_entries = {}
 
-    print(genre_entry.as_dict().values())
+    print(genre_entry.values())
 
-    for key in genre_entry.as_dict().keys():
+    for key in genre_entry.keys():
         print(key)
 
     return genre_entry
