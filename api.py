@@ -99,6 +99,15 @@ class System:
         except:
             return {"Error": "Song Not Found"}
 
+    @router.get("/album/{album_id}")
+    def get_album_by_id(self, album_id: int):
+        try:
+            album = get_album_id(self.session, album_id)
+
+            return JSONResponse(content=album.as_dict())
+        except:
+            return {"Error": "Album Not Found"}
+
     @router.get("/artist/{artist_id}/songs")
     def get_songs_by_artist(self, artist_id: int):
         try:

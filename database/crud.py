@@ -138,6 +138,9 @@ def get_all_albums_by_artistId(session: Session, _id: int) -> List[Album]:
 
     return session.query(Albums).filter_by(artist_id=_id).all()
 
+def get_album_id(session: Session, album_id: int) -> Album:
+    return session.query(Albums).get(album_id)
+
 
 def add_album_by_genres(session: Session, album: Album) -> AlbumByGenres:
     album_details = session.query(Albums).filter_by(album.id)
