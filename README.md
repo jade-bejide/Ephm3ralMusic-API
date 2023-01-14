@@ -5,7 +5,6 @@
 ![Licence](https://img.shields.io/github/license/jade-bejide/Ephm3ralMusic-API)
 ![Issues](https://img.shields.io/github/issues/jade-bejide/Ephm3ralMusic-API)
 
-**This project is currently on pause while I look for alternative hosting options as Heroku hosting is no longer free (more info [here](https://blog.heroku.com/next-chapter)).**
 
 This is the Ephm3ralMusic-API, a Python REST-API built using FastAPI and pydantic to provide developers with key data to build music applications. This API is the main 
 endpoint for the upcoming Ephm3ral Music web application and is also freely available to all developers worldwide.
@@ -18,14 +17,14 @@ endpoint for the upcoming Ephm3ral Music web application and is also freely avai
 
 ## Technology Stack
 * Language: Python
-* Environment: Heroku
+* Environment: Fly.io
 * Framework: FastAPI
 * Database: MySQL
 
 ## Get Started
 *This project is not fully production ready*
 <br />
-The API endpoint can be accessed via <a href="https://ephm3ralmusicapi.herokuapp.com/" target="_blank">this webpage</a>.
+The API endpoint can be accessed via <a href="https://ephm3ral-music.fly.dev/" target="_blank">this webpage</a>.
 
 ### Example Code
 #### Python
@@ -35,7 +34,7 @@ import requests
 from pprint import pprint
 
 #fetch all albums
-albums_response = requests.get("https://ephm3ralmusicapi.herokuapp.com/albums")
+albums_response = requests.get("https://ephm3ral-music.fly.dev/albums")
 
 albums = albums_response.json()
 
@@ -45,7 +44,7 @@ pprint(albums)
 #### JavaScript
 
 ```javascript
-const artistAlbums = `https://ephm3ralmusicapi.herokuapp.com/artist/5/albums`;
+const artistAlbums = `https://ephm3ral-music.fly.dev/artist/5/albums`;
 
 //fetch albums by a specific artist
 let response = fetch(artistAlbums)
@@ -59,31 +58,31 @@ let response = fetch(artistAlbums)
 
 Get all artists (default limit of 10)
 <br />
-```https://ephm3ralmusicapi.herokuapp.com/artists```
+```https://ephm3ral-music.fly.dev/artists```
 
 Get an artist by id
 <br />
-```https://ephm3ralmusicapi.herokuapp.com/artist/{id}```
+```https://ephm3ral-music.fly.dev/artist/{id}```
 
 ### Songs
 
 Get all songs (default limit of 10)
 <br />
-```https://ephm3ralmusicapi.herokuapp.com/songs```
+```https://ephm3ral-music.fly.dev/songs```
 
 Get all songs by a specific artis, by id
 <br />
-```https://ephm3ralmusicapi.herokuapp.com/artist/{id}/songs```
+```https://ephm3ral-music.fly.dev/artist/{id}/songs```
 
 ### Albums
 
 Get all albums (default limit of 10)
 <br />
-```https://ephm3ralmusicapi.herokuapp.com/albums```
+```https://ephm3ral-music.fly.dev/albums```
 
 Get all albums by a specific artist, by id
 <br />
-```https://ephm3ralmusicapi.herokuapp.com/artist/{id}/albums```
+```https://ephm3ral-music.fly.dev/artist/{id}/albums```
 
 ## Example Usages
 <ul>
