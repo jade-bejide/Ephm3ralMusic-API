@@ -5,6 +5,7 @@
 ![Licence](https://img.shields.io/github/license/jade-bejide/Ephm3ralMusic-API)
 ![Issues](https://img.shields.io/github/issues/jade-bejide/Ephm3ralMusic-API)
 
+**This project is temporarily idle while I look for a new MySQL hosting service.**
 
 This is the Ephm3ralMusic-API, a Python REST-API built using FastAPI and pydantic to provide developers with key data to build music applications. This API is the main 
 endpoint for the upcoming Ephm3ral Music web application and is also freely available to all developers worldwide.
