@@ -48,7 +48,6 @@ def add_artist_info(session: Session, artist: Artist) -> Artists:
     new_artist = Artists(**artist.dict())
     session.add(new_artist)
     session.commit()
-    #session.refresh(new_artist)
     return new_artist
 
 #may want to separate this into separate updations per field
@@ -59,8 +58,6 @@ def update_artist_info(session: Session, _id: int, info_update: Artist) -> Artis
         raise ArtistNotFoundError
 
     artist_details.name = info_update.name
-    # artist_details.albums = info_update.albums
-    # artist_details.songs = info_update.songs
     artist_details.total_playtime = info_update.total_playtime
     artist_details.user_score = info_update.user_score 
 
@@ -68,8 +65,6 @@ def update_artist_info(session: Session, _id: int, info_update: Artist) -> Artis
     session.refresh(artist_details)
 
     return artist_details
-
-# def add_album_to_artist(session)
 
 def delete_artist_info(session: Session, _id:int) -> Artists:
     

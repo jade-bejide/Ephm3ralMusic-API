@@ -6,8 +6,6 @@ currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfram
 parentdir = os.path.dirname(currentdir)
 sys.path.insert(0, parentdir) 
 
-
-#sql stuff
 from sqlalchemy.schema import Column, ForeignKey
 from sqlalchemy.types import String, Integer, Enum, Float, DateTime, Text
 from db import Base, meta, db_engine
@@ -15,7 +13,7 @@ from models.baseModel import Model
 import enum
 
 # each model displays multiple inheritance from Base and Model
-#need to add not null as appropriate 
+# add not null as appropriate
 class Artists(Base, Model):
     __tablename__ = "artists"
 
